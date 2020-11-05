@@ -4,18 +4,17 @@
 #invalid entries will terminate the docker container. Default value is PROMPT
 #When auto-updating, it will ALWAYS download the latest papermc jar, regardless of the current version.
 #You can manually update paper by setting UPDATE to NO and adding the jar yourself.
+UPDATE=""
 
-UPDATE="PROMPT"
-
-#Sets the version of papermc to download when updating.
-VERSION="1.16.3"
+#Sets the version of papermc to download when updating. If its for a very new version, check PaperMC.io if a jar is availiable.
+VERSION=""
 
 #DON'T TOUCH ANYTHING BELOW THIS LINE UNLESS YOU KNOW WHAT YOU'RE DOING!
 
 case "$UPDATE" in
 	YES)
 		echo UPDATE is set to YES.
-		echo Downloading the latest papermc jar for version $version.
+		echo Downloading the latest papermc jar for version "$VERSION".
 		curl "https://papermc.io/api/v1/paper/$VERSION/latest/download" > "paperclip.jar"
 		exec ./paperstart.sh
 		;;
@@ -26,12 +25,12 @@ case "$UPDATE" in
 		;;
 	
 	PROMPT)
-		echo "Do you want to update papermc now?"
+		echo "Do you want to update papermc now? (Minecraft '$VERSION')"
 		select yn in "YES" "NO" "EXIT"
 		do
 			case $yn in
 				YES)
-					echo Downloading the latest papermc jar for version $VERSION.
+					echo Downloading the latest papermc jar for version "$VERSION".
 					curl "https://papermc.io/api/v1/paper/$VERSION/latest/download" > "paperclip.jar"
 					exec ./paperstart.sh
 					;;
@@ -43,6 +42,12 @@ case "$UPDATE" in
 			esac
 		done
 		;;
+	*)
+		echo "You need to set an update mode in the paperupdate.sh file. UPDATE= '$UPDATE'"
+		if [ "$VERSION" = '' ]; then
+			echo "You need to set a version in paperupdate.sh. VERSION= '$VERSION'"
+		fi
+		sleep 5
+		;;
 esac
-#echo "Something went wrong. Either UPDATE was set incorrectly, or paperupdate.sh was modified and broke the script"
 exit

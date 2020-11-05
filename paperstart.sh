@@ -2,7 +2,7 @@
 
 #
 # Tuned OpenJ9 Minecraft Server Script created by Andrew Steinborn (steinborn.me/posts/tuning-minecraft-openj9/)
-#Slightly modified to run (by default) using 2GB instead of 4GB for use in small docker containers, and to end the docker container when the server is stopped..
+# Slightly modified to run (by default) using 2GB instead of 4GB for use in small docker containers, and to end the docker container when the server is stopped..
 #
 # Properly tunes a Minecraft server to run efficiently under the
 # OpenJ9 (https://www.eclipse.org/openj9) JVM.
