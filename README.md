@@ -49,5 +49,5 @@ This value is limited by the total RAM in your system.
 
 # Acknowledgements
 #### Andrew Steinborn's OpenJ9 Flags
-Created the script and flags to launch the server. They've been slightly modified to use the virtualized flag and use 2048MB RAM instead of 4096MB (for Synology NAS users). Its functionally the same.
+Created the script and flags to launch the server. They've been slightly modified to use the virtualized flag and use 2048MB RAM instead of 4096MB (for Synology NAS users).
 His blog post on Minecraft and the OpenJ9 JVM can be found [here](https://steinborn.me/posts/tuning-minecraft-openj9/).
