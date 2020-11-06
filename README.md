@@ -1,21 +1,22 @@
 # PaperMC-OpenJ9
-A Paper minecraft server for docker, using the OpenJ9 JVM
+A Paper Minecraft server for Docker, using the OpenJ9 JVM.
 
 ## Features
 * Download and run any version of a Paper server .jar
-* Configure max heap size
 * Choose to automatically/prompt update to the latest version of paper on launch.
 * Uses OpenJ9 JVM for better container performance. [Here's why.](https://steinborn.me/posts/tuning-minecraft-openj9/)
 
 ## How to use this image
+This image can be pulled from the [Docker Hub](https://hub.docker.com/repository/docker/epicbusta/papermc-openj9).
+
 1. Run this image for the first time:
 	* Mount /data to a directory where you want your server files on your drive (-v /serverfiles/go/here:/data)
 2. Open the newly copied paper scripts (paperstart.sh and paperupdate.sh) in a text editor
 3. Modify the variables UPDATE, VERSION and HEAP_SIZE to your liking (read below or comments inside file for values)
 4. Save these files
-5. Run the docker container again. It should start up your Minecraft server.
-	* If you're not using docker host networking, remember to publish port 25565 (-p 25565)
-6. Now you have a working Minecraft Server, running in a docker container.
+5. Run the container again. It should start up your Minecraft server.
+	* If you're not using host networking, remember to publish port 25565 (-p 25565)
+6. Now you have a working Minecraft Server, running in a Docker container. Connect to it via the device's IP.
 
 ## Variables
 Set inside paperupdate.sh and paperstart.sh. Put your setting **inside** the quotations. (e.g. "1.16.2", "YES")
@@ -24,7 +25,8 @@ Set inside paperupdate.sh and paperstart.sh. Put your setting **inside** the quo
 `YES` `PROMPT` `NO`
 
 Changes how the Paper jar will be updated when the container is launched.
-`YES` will check and update the Paper jar on every container launch. Potentially risky. A (incredibly rare) bad PR to Paper may put your files at risk. This option is good for maximum performance.
+
+`YES` will check and update the Paper jar on every container launch. *Potentially* risky. A (*incredibly rare*) bad PR to Paper may put your files at risk. This option is good for maximum performance.
 
 `NO` will never update the Paper jar.
 
@@ -32,7 +34,8 @@ Changes how the Paper jar will be updated when the container is launched.
 
 1. `YES` will update the jar.
 2. `NO` will not update the jar
-3. `EXIT` will not do anything, terminating the docker container.
+3. `EXIT` will not do anything, terminating the container.
+
 
 #### VERSION
 ##### Set the Minecraft version.
@@ -41,6 +44,7 @@ The Minecraft server you want to run (e.g. 1.16.2)
 Not sure if there is a Paper jar for this version? Just copy the URL below into your address bar, replacing VERSION with your version. It should start downloading the latest jar for that particular version.
 
 https://papermc.io/api/v1/paper/VERSION/latest/download
+
 
 #### HEAP_SIZE
 ##### Configure max RAM consumption
