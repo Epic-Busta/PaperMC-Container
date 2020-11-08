@@ -13,7 +13,7 @@ EXPOSE 25565/udp
 
 WORKDIR /root
 #set permissions for the scripts to run without elevation.
-RUN ["chmod" "a+x" "*.sh"]
+RUN ["chmod", "a+x", "*.sh"]
 
 # Run script to copy update and start scripts to volume
 ENTRYPOINT ./start.sh
