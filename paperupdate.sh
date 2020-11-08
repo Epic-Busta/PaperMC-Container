@@ -23,7 +23,7 @@ fi
 case "$UPDATE" in
 	YES)
 		echo Downloading the latest Paper jar for version "$VERSION".
-		curl -o "paperclip.jar" -z "paperclip.jar" "https://papermc.io/api/v1/paper/$VERSION/latest/download"
+		curl -z paperclip.jar "https://papermc.io/api/v1/paper/$VERSION/latest/download"  -o paperclip.jar
 		exec ./paperstart.sh
 		;;
 
@@ -39,7 +39,7 @@ case "$UPDATE" in
 			case $yn in
 				YES)
 					echo Downloading the latest papermc jar for version "$VERSION".
-					curl -o "paperclip.jar" -z "paperclip.jar" "https://papermc.io/api/v1/paper/$VERSION/latest/download"
+					curl -z paperclip.jar "https://papermc.io/api/v1/paper/$VERSION/latest/download" -o paperclip.jar
 					exec ./paperstart.sh
 					;;
 				NO)
