@@ -16,7 +16,9 @@ This image can be pulled from the [Docker Hub](https://hub.docker.com/repository
 4. Save these files
 5. Run the container again. It should start up your Minecraft server.
 	* If you're not using host networking, remember to publish port 25565 (-p 25565)
-6. Now you have a working Minecraft Server, running in a Docker container. Connect to it via the device's IP.
+6. Now you have a working Minecraft Server, running in a Docker container.
+
+You will need to accept the EULA by in EULA.txt.
 
 ## Variables
 Set inside paperupdate.sh and paperstart.sh. Put your setting **inside** the quotations. (e.g. "1.16.2", "YES")
