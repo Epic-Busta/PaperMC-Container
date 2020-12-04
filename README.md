@@ -1,10 +1,11 @@
 # PaperMC-OpenJ9
-A Paper Minecraft server for Docker, using the OpenJ9 JVM.
+A Paper Minecraft server for Docker, using the OpenJ9 JVM and Bash Scripts.
 
 ## Features
 * Download and run any version of a Paper server .jar
 * Choose to automatically/prompt update to the latest version of paper on launch.
 * Uses OpenJ9 JVM for better container performance. [Here's why.](https://steinborn.me/posts/tuning-minecraft-openj9/)
+* Futureproof: Will work for any version of paper from the past and into the future. This docker image may never need updating.
 
 ## How to use this image
 This image can be pulled from the [Docker Hub](https://hub.docker.com/repository/docker/epicbusta/papermc-openj9).
@@ -16,12 +17,16 @@ This image can be pulled from the [Docker Hub](https://hub.docker.com/repository
 4. Save these files
 5. Run the container again. It should start up your Minecraft server.
 	* If you're not using host networking, remember to publish port 25565 (-p 25565)
-6. Now you have a working Minecraft Server, running in a Docker container.
+	* You'll need to port forward this port to make it public.
+6. Open the eula.txt and accept the Mojang EULA.
+7. Run the container.
 
-You will need to accept the EULA in EULA.txt.
+Now you have a working Minecraft Server, running in a Docker container.
 
 ## Variables
 Set inside paperupdate.sh and paperstart.sh. Put your setting **inside** the quotations. (e.g. "1.16.2", "YES")
+
+These are NOT set by default. Server owners should be aware of what their server and this docker container will do.
 #### UPDATE
 ##### Auto-Update behavior
 `YES` `PROMPT` `NO`
@@ -55,5 +60,5 @@ This value is limited by the total RAM in your system.
 
 # Acknowledgements
 #### Andrew Steinborn's OpenJ9 Flags
-Created the script and flags to launch the server. They've been slightly modified to use the virtualized flag and use 2048MB RAM instead of 4096MB (for Synology NAS users).
+Created the script and flags to launch the server. It's been slightly modified to use the virtualized flag and use 2048MB RAM instead of 4096MB (for Synology NAS users).
 His blog post on Minecraft and the OpenJ9 JVM can be found [here](https://steinborn.me/posts/tuning-minecraft-openj9/).
