@@ -1,13 +1,41 @@
-# PaperMC-OpenJ9
-A Paper Minecraft server for Docker, using the OpenJ9 JVM.
+# PaperMC Server for Containers
+A Paper Minecraft server container with selectable garbage collectors.
 
 ## Features
 * Download and run any version of a Paper server .jar
 * Choose to automatically/prompt update to the latest version of paper on launch.
-* Uses OpenJ9 JVM for better container performance. [Here's why.](https://steinborn.me/posts/tuning-minecraft-openj9/)
+* Pick between Aikar's G1 Flags, Andrew Steinborn's OpenJ9 tuned Gencon Flags or ShenandoahGC
+
+## Which GC (tag) do I use?
+Each one has benefits and drawbacks. If you still don't know, just use G1GC.
+
+#### G1GC
+Aikar's Optimised G1GC Flags. Its popular and effective at boosting performance over java defaults.
+* Most servers use this. More of a standard that most servers use.
+* Aikar's [Blog Post](https://aikar.co/2018/07/02/tuning-the-jvm-g1gc-garbage-collector-flags-for-minecraft/) goes over how it works for transparency.
+* Timings wont throw a fit for not using Aikar's Flags.
+
+As I said before, If you aren't sure just use this.
+
+#### OpenJ9 Gencon
+Andrew Steinborn's tuned OpenJ9 flags. Takes inspiration from Aikar's Flags but its for OpenJ9.
+* Smaller memory footprint.
+* Similar performance to G1GC.
+
+This is good in memory-limited situations. Otherwise it works similarly to Aikar's G1.
+
+#### Shenandoah
+A bit experimental. Designed for similar pause time regardless of allocated memory size.
+* Concurrent Garbage Collection. Does its work while the server is running, instead of stopping (causing lag spikes)
+* Low latency, regardless of heap size.
+* Can release memory back to the OS. (Apparently the others can do this but its not recommended nor have I seen them do it.)
+* A bit untested. The [flags used](https://www.reddit.com/r/admincraft/comments/bmn889/vanilla_minecraft_server_1141pre2_experiencing/emy79tk/) might not be very optimised yet.
+* Some potential overhead. May not be worthwhile in some instances
+
+While there may be large performance gains, I would not use this on live, critical servers without proper testing. Maybe try it if there are really severe lag problems and as a last effort. Some code (plugins etc.) may not play nice with Shenandoah.
 
 ## How to use this image
-This image can be pulled from the [Docker Hub](https://hub.docker.com/repository/docker/epicbusta/papermc-openj9).
+This image can be pulled from the [Docker Hub](https://hub.docker.com/repository/docker/epicbusta/papermc-openj9). The tag defines the GC used.
 
 1. Run this image for the first time:
 	* Mount /data to a directory where you want your server files on your drive (-v /serverfiles/go/here:/data)
@@ -15,13 +43,16 @@ This image can be pulled from the [Docker Hub](https://hub.docker.com/repository
 3. Modify the variables UPDATE, VERSION and HEAP_SIZE to your liking (read below or comments inside file for values)
 4. Save these files
 5. Run the container again. It should start up your Minecraft server.
-	* If you're not using host networking, remember to publish port 25565 (-p 25565)
+	* If you're not using host networking, remember to publish port 25565 (-p 25565) and any ports that you need (e.g. rcon, plugins etc.)
 6. Now you have a working Minecraft Server, running in a Docker container.
 
 You will need to accept the EULA in EULA.txt.
 
+If you'd like to switch to a different garbage collector, just download the image using the desired tag and follow the instructions above. If you mount your volumes the same, you'll get the same server as before.
+
 ## Variables
 Set inside paperupdate.sh and paperstart.sh. Put your setting **inside** the quotations. (e.g. "1.16.2", "YES")
+### paperupdate.sh
 #### UPDATE
 ##### Auto-Update behavior
 `YES` `PROMPT` `NO`
@@ -38,7 +69,7 @@ Changes how the Paper jar will be updated when the container is launched.
 2. `NO` will not update the jar
 3. `EXIT` will not do anything, terminating the container.
 
-
+### paperstart.sh
 #### VERSION
 ##### Set the Minecraft version.
 The Minecraft server you want to run (e.g. 1.16.2)
@@ -54,6 +85,11 @@ An integer in megabytes (MB). By default this value is 2048MB, meant for small S
 This value is limited by the total RAM in your system.
 
 # Acknowledgements
+#### Aikar's Optimised G1GC Flags.
+Researched and created an optimised set of flags for Minecraft servers using the G1 garbage collector. Used on most Minecraft servers out there.
+Read his blog post about his flags [here](https://aikar.co/2018/07/02/tuning-the-jvm-g1gc-garbage-collector-flags-for-minecraft/)
 #### Andrew Steinborn's OpenJ9 Flags
-Created the script and flags to launch the server. They've been slightly modified to use the virtualized flag and use 2048MB RAM instead of 4096MB (for Synology NAS users).
+Created the script and flags to launch the server. They've been slightly modified to use the virtualized flag and use 2048MB RAM instead of 4096MB (for Synology NAS users). I've also used the same format in his script for the other GCs for its simplicity.
 His blog post on Minecraft and the OpenJ9 JVM can be found [here](https://steinborn.me/posts/tuning-minecraft-openj9/).
+#### Shadowdane's Shenandoah flags from reddit
+The [ONLY place](https://www.reddit.com/r/admincraft/comments/bmn889/vanilla_minecraft_server_1141pre2_experiencing/emy79tk/) I've seen any talk about Shenandoah actually being used on a server.

@@ -1,4 +1,4 @@
-FROM adoptopenjdk:14-jre-openj9
+FROM adoptopenjdk:openj9
 
 SHELL ["/bin/bash", "-c"]
 #Copy server auto-update script and server configuration scripts.
