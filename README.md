@@ -46,7 +46,7 @@ This image can be pulled from the [Docker Hub](https://hub.docker.com/repository
 	* If you're not using host networking, remember to publish port 25565 (-p 25565) and any ports that you need (e.g. rcon, plugins etc.)
 6. Now you have a working Minecraft Server, running in a Docker container.
 
-You will need to accept the EULA in EULA.txt.
+Now you have a working Minecraft Server, running in a Docker container.
 
 If you'd like to switch to a different garbage collector, just download the image using the desired tag and follow the instructions above. If you mount your volumes the same, you'll get the same server as before.
 
