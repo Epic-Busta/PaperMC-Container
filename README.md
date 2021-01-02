@@ -1,6 +1,7 @@
-# PaperMC Server for Containers
+# PaperMC Server for Containers (WORK IN PROGRESS)
 A Paper Minecraft server container with selectable garbage collectors.
 
+This might not work yet. I'm just ironing out any problems and I should really be testing these locally instead of pushing to the repo
 ## Features
 * Download and run any version of a Paper server .jar
 * Choose to automatically/prompt update to the latest version of paper on launch.
