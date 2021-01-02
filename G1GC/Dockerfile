@@ -11,6 +11,9 @@ VOLUME /data
 EXPOSE 25565/tcp
 EXPOSE 25565/udp
 
+#Set Environment Variable for which GC to use
+ENV PaperGC=G1GC
+
 WORKDIR /root
 #set permissions for the scripts to run without elevation.
 RUN ["chmod", "a+x", "start.sh"]
