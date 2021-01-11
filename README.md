@@ -1,11 +1,21 @@
-# PaperMC Server for Containers (WORK IN PROGRESS)
+# PaperMC Server for Containers
 A Paper Minecraft server container with selectable garbage collectors.
 
-This might not work yet. I'm just ironing out any problems and I should really be testing these locally instead of pushing to the repo
+
 ## Features
 * Download and run any version of a Paper server .jar
 * Choose to automatically/prompt update to the latest version of paper on launch.
-* Pick between Aikar's G1 Flags, Andrew Steinborn's OpenJ9 tuned Gencon Flags or ShenandoahGC
+* Pick between Aikar's G1 Flags, Andrew Steinborn's OpenJ9 tuned Gencon Flags or Shenandoah GC
+
+## How to use this image
+This image can be pulled from the [Docker Hub](https://hub.docker.com/repository/docker/epicbusta/papermc-openj9). The tag defines the GC used.
+
+1. Mount /data to a directory where you want your server files on your drive (-v /serverfiles/go/here:/data)
+2. Set your variables. See the Variables section.
+
+Now you have a working Minecraft Server, running in a container.
+
+If you'd like to switch to a different garbage collector, just download the image using the desired tag and follow the instructions above. If you mount your volumes the same, you'll get the same server (map, plugins etc.) as before.
 
 ## Which GC (tag) do I use?
 Each one has benefits and drawbacks. If you still don't know, just use G1GC.
@@ -23,7 +33,7 @@ Andrew Steinborn's tuned OpenJ9 flags. Takes inspiration from Aikar's Flags but 
 * Smaller memory footprint.
 * Similar performance to G1GC.
 
-This is good in memory-limited situations. Otherwise it works similarly to Aikar's G1.
+This is good in memory-limited situations. Otherwise it performs similarly to Aikar's G1.
 
 #### Shenandoah
 A bit experimental. Designed for similar pause time regardless of allocated memory size.
@@ -35,26 +45,11 @@ A bit experimental. Designed for similar pause time regardless of allocated memo
 
 While there may be large performance gains, I would not use this on live, critical servers without proper testing. Maybe try it if there are really severe lag problems and as a last effort. Some code (plugins etc.) may not play nice with Shenandoah.
 
-## How to use this image
-This image can be pulled from the [Docker Hub](https://hub.docker.com/repository/docker/epicbusta/papermc-openj9). The tag defines the GC used.
-
-1. Run this image for the first time:
-	* Mount /data to a directory where you want your server files on your drive (-v /serverfiles/go/here:/data)
-2. Open the newly copied paper scripts (paperstart.sh and paperupdate.sh) in a text editor
-3. Modify the variables UPDATE, VERSION and HEAP_SIZE to your liking (read below or comments inside file for values)
-4. Save these files
-5. Run the container again. It should start up your Minecraft server.
-	* If you're not using host networking, remember to publish port 25565 (-p 25565) and any ports that you need (e.g. rcon, plugins etc.)
-6. Now you have a working Minecraft Server, running in a Docker container.
-
-Now you have a working Minecraft Server, running in a Docker container.
-
-If you'd like to switch to a different garbage collector, just download the image using the desired tag and follow the instructions above. If you mount your volumes the same, you'll get the same server as before.
-
 ## Variables
-Set inside paperupdate.sh and paperstart.sh. Put your setting **inside** the quotations. (e.g. "1.16.2", "YES")
-### paperupdate.sh
-#### UPDATE
+Set via ENV variables. In docker, use -e, followed by any variables in double quotations. e.g. -e "UPDATE=YES" "VERSION=1.16.4" "HEAP_SIZE=2048"
+Settings in **BOLD** must be set.
+
+#### **UPDATE**
 ##### Auto-Update behavior
 `YES` `PROMPT` `NO`
 
@@ -64,14 +59,13 @@ Changes how the Paper jar will be updated when the container is launched.
 
 `NO` will never update the Paper jar.
 
-`PROMPT` will prompt the user of what they wish to do. A good compromise between `YES` and `NO`, but requires user input.
+`PROMPT` will prompt the user of what they wish to do. A good compromise between `YES` and `NO`, but *requires user input.*
 
 1. `YES` will update the jar.
 2. `NO` will not update the jar
 3. `EXIT` will not do anything, terminating the container.
 
-### paperstart.sh
-#### VERSION
+#### **VERSION**
 ##### Set the Minecraft version.
 The Minecraft server you want to run (e.g. 1.16.2)
 
@@ -79,11 +73,34 @@ Not sure if there is a Paper jar for this version? Just copy the URL below into 
 
 https://papermc.io/api/v1/paper/VERSION/latest/download
 
+If you get an error when running the server, check that you've put the correct version as the variable and there is actually a downloadable jar using the test URL above.
 
-#### HEAP_SIZE
+#### **HEAP_SIZE**
 ##### Configure max RAM consumption
 An integer in megabytes (MB). By default this value is 2048MB, meant for small SMP servers.
 This value is limited by the total RAM in your system.
+
+#### PaperGC
+##### Change the GC from the image to something else, with limitations.
+If *for whatever reason* you need or want to switch GC, you can do so here. Its recommended to leave this alone, since its already set from the image. Also there aren't many GCs available in this image so there isn't much point.
+
+You can't use Hotspot GCs in OpenJ9 and vice versa.
+
+Hotspot:
+
+`G1GC` `Shenandoah`
+
+OpenJ9:
+
+`Gencon`
+
+#### HACKABLE
+##### Puts the shell files in the volume directory, so you can change stuff.
+When set to `YES`, copies the two shell scripts into /data/, where your volume should be mounted and uses them instead. All the variables above can be set there. You can also make any edits.
+
+If you make a mistake and can't go back, just delete the bad shell file and turn the container on and off to copy a fresh shell file into the volume. If you remove the `HACKABLE` variable, the container will ignore the scripts in the volume. Keep `HACKABLE=YES` to use your changes.
+
+PLEASE don't go into /root/ to change the original scripts. If you mess up, you can't go back!
 
 # Acknowledgements
 #### Aikar's Optimised G1GC Flags.
