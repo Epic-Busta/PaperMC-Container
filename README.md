@@ -17,6 +17,8 @@ Now you have a working Minecraft Server, running in a container.
 
 If you'd like to switch to a different garbage collector, just download the image using the desired tag and follow the instructions above. If you mount your volumes the same, you'll get the same server (map, plugins etc.) as before.
 
+You must configure the volume, or else you wont be able to accept the Mojang EULA. It is a good check since you won't have access to your world files forever (without some weird trickery) or any of the config files if you don't do it.
+
 ## Which GC (tag) do I use?
 Each one has benefits and drawbacks. If you still don't know, just use G1GC.
 
@@ -113,7 +115,7 @@ PLEASE don't go into /root/ to change the original scripts. If you mess up, you 
 Researched and created an optimised set of flags for Minecraft servers using the G1 garbage collector. Used on most Minecraft servers out there.
 Read his blog post about his flags [here](https://aikar.co/2018/07/02/tuning-the-jvm-g1gc-garbage-collector-flags-for-minecraft/)
 #### Andrew Steinborn's OpenJ9 Flags
-Created the script and flags to launch the server. They've been slightly modified to use the virtualized flag and use 2048MB RAM instead of 4096MB (for Synology NAS users). I've also used the same format in his script for the other GCs for its simplicity.
+Created the script and flags to launch the server. They've been slightly modified to use the virtualized flag since its being used in a container (might not be needed? may change in the future). I've also used the same format in his script for the other GCs for its simplicity.
 His blog post on Minecraft and the OpenJ9 JVM can be found [here](https://steinborn.me/posts/tuning-minecraft-openj9/).
 #### Shadowdane's Shenandoah flags from reddit
 The [ONLY place](https://www.reddit.com/r/admincraft/comments/bmn889/vanilla_minecraft_server_1141pre2_experiencing/emy79tk/) I've seen any talk about Shenandoah actually being used on a server.
