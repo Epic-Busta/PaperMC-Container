@@ -14,13 +14,16 @@
 
 echo UPDATE is set to "$UPDATE"
 echo VERSION is set to "$VERSION"
-#if [ "$VERSION" = '' ] && [ "$UPDATE" = '' ] ; then
-#	echo 'You have not set a version or an update mode (VERSION and UPDATE variables are empty)'
-#	echo ''
-#	echo 'These files should be located in the directory mounted as a volume (/data inside the container)'
-#	sleep 40
-#	exit
-#fi
+if [ -z "$VERSION" ] && [ -z "$UPDATE" ] ; then
+	echo "You've started this container without VERSION and UPDATE set."
+	echo "Set these via ENV variables (-e VERSION=... UPDATE=... HEAP_SIZE=...)"
+	echo "Read the docker page for this image or on github for more details"
+	exit
+fi
+if [ "$JAR_NAME" != "paperclip.jar" ]; then
+	echo "A custom JAR_NAME ($JAR_NAME) is set. Ignoring UPDATE and not downloading paper."
+	exec ./paperstart.sh
+fi
 case "$UPDATE" in
 	YES)
 		echo Downloading the latest Paper jar for version "$VERSION".

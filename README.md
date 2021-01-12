@@ -94,6 +94,12 @@ OpenJ9:
 
 `Gencon`
 
+#### JAR_NAME
+##### Sets what the server .jar file to run.
+By default it is paperclip.jar. This is mainly if you want to run a custom server (Forge, Sponge etc.)other than paper.
+
+If this is set, a paperclip jar will not be downloaded.
+
 #### HACKABLE
 ##### Puts the shell files in the volume directory, so you can change stuff.
 When set to `YES`, copies the two shell scripts into /data/, where your volume should be mounted and uses them instead. All the variables above can be set there. You can also make any edits.
