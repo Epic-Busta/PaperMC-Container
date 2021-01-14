@@ -58,7 +58,7 @@ case "$UPDATE" in
 	*)
 		#Informs the user that they incorrectly set the UPDATE variable.
 		echo You need to set a proper update mode. UPDATE="$UPDATE"
-		if [ "$VERSION" = '' ] || [ -z "$VERSION"]; then
+		if [ "$VERSION" = '' ] || [ -z "$VERSION" ]; then
 			echo You need to set a Minecraft version. VERSION="$VERSION"
 		fi
 		sleep 5
