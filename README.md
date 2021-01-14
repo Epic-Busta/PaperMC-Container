@@ -11,7 +11,9 @@ A Paper Minecraft server container with selectable garbage collectors.
 This image can be pulled from the [Docker Hub](https://hub.docker.com/repository/docker/epicbusta/papermc-openj9). The tag defines the GC used.
 
 1. Mount /data to a directory where you want your server files on your drive (-v /serverfiles/go/here:/data)
-2. Set your variables. See the Variables section.
+2. Set your variables (via -e). See the Variables section.
+3. Run the container, the container will terminate. Go to the volume and accept the Mojang EULA (eula.txt).
+4. Run the container again.
 
 Now you have a working Minecraft Server, running in a container.
 
@@ -49,7 +51,8 @@ While there may be large performance gains, I would not use this on live, critic
 
 ## Variables
 Set via ENV variables. In docker, use -e, followed by any variables in double quotations. e.g. -e "UPDATE=YES" "VERSION=1.16.4" "HEAP_SIZE=2048"
-Settings in **BOLD** must be set.
+
+`UPDATE` `VERSION` and `HEAP_SIZE` must be set, The container will terminate if not done.
 
 #### **UPDATE**
 ##### Auto-Update behavior
