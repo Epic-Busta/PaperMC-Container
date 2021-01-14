@@ -13,6 +13,7 @@ EXPOSE 25565/udp
 
 #Set Environment Variable for which GC to use
 ENV PaperGC=Shenandoah
+ENV JAR_NAME=paperclip.jar
 
 WORKDIR /root
 #set permissions for the scripts to run without elevation.

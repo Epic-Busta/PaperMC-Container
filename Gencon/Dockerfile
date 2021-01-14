@@ -12,7 +12,8 @@ EXPOSE 25565/tcp
 EXPOSE 25565/udp
 
 #Set Environment Variable for which GC to use
-ENV PaperGC=OpenJ9
+ENV PaperGC=Gencon
+ENV JAR_NAME=paperclip.jar
 
 WORKDIR /root
 #set permissions for the scripts to run without elevation.
