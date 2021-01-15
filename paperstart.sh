@@ -34,7 +34,7 @@ NURSERY_MAXIMUM=$(($HEAP_SIZE * 4 / 5))
 # Launch the server.
 case "$PaperGC" in
   G1GC)
-    CMD="java -Xms${HEAP_SIZE}M -Xmx${HEAP_SIZE}M -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar paperclip.jar nogui"
+    CMD="java -Xms${HEAP_SIZE}M -Xmx${HEAP_SIZE}M -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar ${JAR_NAME} nogui"
     ;;
 
   Gencon)
@@ -42,7 +42,7 @@ case "$PaperGC" in
     ;;
 
   Shenandoah)
-    CMD="java -server -Xmx${HEAP_SIZE}M -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:+AlwaysPreTouch -XX:MaxGCPauseMillis=100 -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:ShenandoahUncommitDelay=10000 -XX:ShenandoahGuaranteedGCInterval=60000"
+    CMD="java -server -Xmx${HEAP_SIZE}M -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:+AlwaysPreTouch -XX:MaxGCPauseMillis=100 -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:ShenandoahUncommitDelay=10000 -XX:ShenandoahGuaranteedGCInterval=60000 -jar ${JAR_NAME}"
     ;;
 esac
 echo "launching server with command line: ${CMD}"

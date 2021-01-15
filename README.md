@@ -55,7 +55,7 @@ Set via ENV variables. In docker, use -e, followed by any variables in double qu
 `UPDATE` `VERSION` and `HEAP_SIZE` must be set, The container will terminate if not done.
 
 #### **UPDATE**
-##### Auto-Update behavior
+##### Auto-Update behaviour
 `YES` `PROMPT` `NO`
 
 Changes how the Paper jar will be updated when the container is launched.
