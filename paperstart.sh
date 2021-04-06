@@ -38,11 +38,11 @@ case "$PaperGC" in
     ;;
 
   Gencon)
-    CMD="java -Xms${HEAP_SIZE}M -Xmx${HEAP_SIZE}M -Xmns${NURSERY_MINIMUM}M -Xmnx${NURSERY_MAXIMUM}M -Xgc:concurrentScavenge -Xgc:dnssExpectedTimeRatioMaximum=3 -Xgc:scvNoAdaptiveTenure -Xdisableexplicitgc -Xtune:virtualized -jar ${JAR_NAME}"
+    CMD="java -Xms${HEAP_SIZE}M -Xmx${HEAP_SIZE}M -Xmns${NURSERY_MINIMUM}M -Xmnx${NURSERY_MAXIMUM}M -Xgc:concurrentScavenge -Xgc:dnssExpectedTimeRatioMaximum=3 -Xgc:scvNoAdaptiveTenure -Xdisableexplicitgc -Xtune:virtualized -jar ${JAR_NAME} -nogui"
     ;;
 
   Shenandoah)
-    CMD="java -server -Xmx${HEAP_SIZE}M -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:+AlwaysPreTouch -XX:MaxGCPauseMillis=100 -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:ShenandoahUncommitDelay=10000 -XX:ShenandoahGuaranteedGCInterval=60000 -jar ${JAR_NAME}"
+    CMD="java -server -Xmx${HEAP_SIZE}M -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:+AlwaysPreTouch -XX:MaxGCPauseMillis=100 -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:ShenandoahUncommitDelay=10000 -XX:ShenandoahGuaranteedGCInterval=60000 -jar ${JAR_NAME} -nogui"
     ;;
 esac
 echo "launching server with command line: ${CMD}"
