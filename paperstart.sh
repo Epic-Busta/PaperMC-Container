@@ -44,6 +44,10 @@ case "$PaperGC" in
   Shenandoah)
     CMD="java -server -Xmx${HEAP_SIZE}M -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:+AlwaysPreTouch -XX:MaxGCPauseMillis=100 -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:ShenandoahUncommitDelay=10000 -XX:ShenandoahGuaranteedGCInterval=60000 -jar ${JAR_NAME} -nogui"
     ;;
+  
+  ZGC)
+    CMD="java -server -Xmx${HEAP_SIZE}M -XX:+UnlockExperimentalVMOptions -XX:+UseZGC"
+    ;;
 esac
 echo "launching server with command line: ${CMD}"
 exec ${CMD}
